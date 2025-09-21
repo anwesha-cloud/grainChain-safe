@@ -23,6 +23,8 @@ export const SignUp = ({ onBack }: SignUpProps) => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
+  const API = "http://localhost:5000/api"; // 👈 added
+
   const validatePassword = (pw: string) => {
     const rules = [
       { id: "length", label: "At least 8 characters", test: pw.length >= 8 },
@@ -52,7 +54,7 @@ export const SignUp = ({ onBack }: SignUpProps) => {
 
     setSubmitting(true);
     try {
-      const res = await fetch("http://localhost:5000/auth/signup", {
+      const res = await fetch(`${API}/auth/signup`, {  // 👈 updated
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: fullName, email, password, address, role: isDonor ? "donor" : "ngo" }),
@@ -148,7 +150,7 @@ export const SignUp = ({ onBack }: SignUpProps) => {
                 <div className="w-full h-2 rounded bg-slate-200 overflow-hidden">
                   <div
                     className="h-2 rounded bg-green-500"
-                    style={{ width: `${strengthPercent}%`, transition: 'width 160ms ease' }}
+                    style={{ width: `${strengthPercent}%`, transition: "width 160ms ease" }}
                     aria-hidden
                   />
                 </div>
@@ -180,7 +182,7 @@ export const SignUp = ({ onBack }: SignUpProps) => {
             </div>
 
             <Button type="submit" className="w-full" disabled={submitting}>
-              {submitting ? 'Signing up...' : 'Sign Up'}
+              {submitting ? "Signing up..." : "Sign Up"}
             </Button>
           </form>
         </CardContent>
