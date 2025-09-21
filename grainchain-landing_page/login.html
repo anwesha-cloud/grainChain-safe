@@ -3,57 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - GrainChain</title>
+  <title>Sign Up - GrainChain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-     /* background-color: #0b3d1a; */
-      background: "C:\Users\krish\OneDrive\Pictures\Screenshots\HEHE.png";
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(11,61,26,0.9), rgba(0,0,0,0.8)),
+                  url('YOUR_BACKGROUND_IMAGE_LINK_HERE');
       background-size: cover;
       background-position: center;
-      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      color: white;
     }
+
     .form-box {
-      background: rgba(0,0,0,0.7);
-      padding: 30px;
-      border-radius: 12px;
-      width: 320px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 16px;
+      width: 350px;
       text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      animation: fadeIn 1s ease-in-out;
     }
+
+    .form-box h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 1.8rem;
+      color: #e0ffe5;
+    }
+
     input {
       width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 6px;
+      margin: 12px 0;
+      padding: 12px;
+      border-radius: 8px;
       border: none;
+      outline: none;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transition: all 0.3s ease;
     }
+
+    input::placeholder {
+      color: #d0d0d0;
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 8px #5ba644;
+    }
+
     button {
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
+      padding: 14px;
+      margin-top: 15px;
       border: none;
-      border-radius: 8px;
-      background-color: #5ba644;
+      border-radius: 10px;
       font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
+      background: linear-gradient(135deg, #5ba644, #3e7c2f);
+      color: white;
+      transition: all 0.3s ease;
     }
+
     button:hover {
-      background-color: #4b8e38;
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #6fd052, #4b8e38);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
     }
   </style>
 </head>
 <body>
   <div class="form-box">
-    <h2>Login</h2>
+    <h2>Create Your Account</h2>
     <form>
+      <input type="text" placeholder="Full Name" required>
       <input type="email" placeholder="Email" required>
       <input type="password" placeholder="Password" required>
-      <button type="submit">Login</button>
+      <button type="submit">Sign Up</button>
     </form>
   </div>
 </body>
