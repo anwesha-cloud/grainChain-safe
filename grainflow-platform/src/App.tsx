@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import DonorDashboard from "./pages/DonorDashboard";
 import NGODashboard from "./pages/NGODashboard";
+import { Login } from "./components/auth/Login";      // 👈 import your Login page
+import { SignUp } from "./components/auth/SignUp";    // 👈 import your SignUp page
 
 const queryClient = new QueryClient();
 
@@ -18,9 +20,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login onBack={() => window.history.back()} />} />
+          <Route path="/signup" element={<SignUp onBack={() => window.history.back()} />} />
           <Route path="/donor-dashboard" element={<DonorDashboard />} />
           <Route path="/ngo-dashboard" element={<NGODashboard />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
