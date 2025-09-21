@@ -1,5 +1,6 @@
 const express = require('express');
 const Donation = require('../models/donation');
+const { predictExpiry } = require('../services/mlService');  // <-- AI service
 const router = express.Router();
 
 function toGeoPoint(loc) {
@@ -13,17 +14,24 @@ function toGeoPoint(loc) {
 // POST /api/donations
 router.post('/', async (req, res) => {
   try {
-    const { food_type, quantity, donor, location, expiry_hours } = req.body;
+    const { food_type, quantity, donor, location, storage, temperature } = req.body;
     if (!food_type || !quantity) {
       return res.status(400).json({ error: 'food_type and quantity required' });
     }
+
+    const upload_time = new Date().toISOString();
+
+    // Call AI service
+    const mlResult = await predictExpiry(food_type, upload_time, storage, temperature);
 
     const donation = new Donation({
       food_type,
       quantity,
       donor: donor || 'mock-user',
       location: toGeoPoint(location),
-      expiry_hours
+      expiry_hours: mlResult.adjusted_expiry,
+      safe_till: mlResult.safe_till_iso,
+      upload_time
     });
 
     await donation.save();
