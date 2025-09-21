@@ -20,6 +20,13 @@ app.get('/', (req, res) => {
   res.send('FoodPrint backend alive');
 });
 
+// after other app.use() lines
+app.use('/api/auth', require('./routes/auth'));
+// after mounting auth
+
+// add this line to mount food endpoints
+app.use('/api/food', require('./routes/food'));
+
 // Connect to MongoDB Atlas first, then start the server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
