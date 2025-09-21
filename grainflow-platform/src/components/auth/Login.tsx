@@ -19,8 +19,6 @@ export const Login = ({ onBack }: LoginProps) => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const API = "http://localhost:5000/api"; // 👈 added
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -32,7 +30,7 @@ export const Login = ({ onBack }: LoginProps) => {
 
     setSubmitting(true);
     try {
-      const res = await fetch(`${API}/auth/login`, {  // 👈 updated
+      const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -136,12 +134,8 @@ export const Login = ({ onBack }: LoginProps) => {
             </Button>
 
             <div className="text-sm text-center text-muted-foreground mt-2">
-              <p>
-                Forgot your password? <a href="#" className="underline">Reset it here</a>
-              </p>
-              <p>
-                New to GrainChain? <a href="/signup" className="underline">Create an account</a>
-              </p>
+              <p>Forgot your password? <a href="#" className="underline">Reset it here</a></p>
+              <p>New to GrainChain? <a href="/signup" className="underline">Create an account</a></p>
             </div>
           </form>
         </CardContent>

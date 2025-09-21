@@ -23,8 +23,6 @@ export const SignUp = ({ onBack }: SignUpProps) => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const API = "http://localhost:5000/api"; // 👈 added
-
   const validatePassword = (pw: string) => {
     const rules = [
       { id: "length", label: "At least 8 characters", test: pw.length >= 8 },
@@ -33,7 +31,6 @@ export const SignUp = ({ onBack }: SignUpProps) => {
       { id: "number", label: "One number (0-9)", test: /[0-9]/.test(pw) },
       { id: "special", label: "One special character (e.g. !@#$%)", test: /[^A-Za-z0-9]/.test(pw) },
     ];
-
     const passed = rules.filter((r) => r.test).length;
     const failed = rules.filter((r) => !r.test).map((r) => r.label);
     return { rules, passed, failed, valid: failed.length === 0 };
@@ -48,22 +45,28 @@ export const SignUp = ({ onBack }: SignUpProps) => {
     setError("");
 
     if (!passwordValidation.valid) {
-      setError(`Password requirements not met.`);
+      setError("Password requirements not met.");
       return;
     }
 
     setSubmitting(true);
     try {
-      const res = await fetch(`${API}/auth/signup`, {  // 👈 updated
+      const res = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: fullName, email, password, address, role: isDonor ? "donor" : "ngo" }),
+        body: JSON.stringify({
+          name: fullName,
+          email,
+          password,
+          address,
+          role: isDonor ? "donor" : "ngo",
+        }),
       });
 
       let data: any;
       try {
         data = await res.json();
-      } catch (jsonErr) {
+      } catch {
         data = { error: undefined };
       }
 
