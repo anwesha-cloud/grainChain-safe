@@ -3,103 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GrainChain</title>
+  <title>Sign Up - GrainChain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0b3d1a; /* fallback dark green */
-      background-image: url('YOUR_BACKGROUND_IMAGE_LINK_HERE'); /* put link here */
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(11,61,26,0.9), rgba(0,0,0,0.8)),
+                  url('YOUR_BACKGROUND_IMAGE_LINK_HERE');
       background-size: cover;
       background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       color: white;
+    }
+
+    .form-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 16px;
+      width: 350px;
       text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      animation: fadeIn 1s ease-in-out;
     }
 
-    header {
-      background-color: rgba(10, 52, 21, 0.95);
-      padding: 20px;
+    .form-box h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
       font-size: 1.8rem;
-      font-weight: bold;
+      color: #e0ffe5;
     }
 
-    h2 {
-      margin-top: 60px;
-      font-size: 1.6rem;
-      font-weight: bold;
-      text-shadow: 1px 1px 2px black;
-    }
-
-    p {
-      color: #b7c4b2;
-      font-size: 1rem;
-      margin: 10px auto 40px;
-      width: 80%;
-      max-width: 500px;
-    }
-
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .btn {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #5ba644;
-      color: black;
-      padding: 15px 25px;
-      border-radius: 25px;
-      width: 280px;
-      font-size: 1.2rem;
-      font-weight: 500;
+    input {
+      width: 100%;
+      margin: 12px 0;
+      padding: 12px;
+      border-radius: 8px;
       border: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      outline: none;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder {
+      color: #d0d0d0;
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 8px #5ba644;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      background: linear-gradient(135deg, #5ba644, #3e7c2f);
+      color: white;
+      transition: all 0.3s ease;
     }
 
-    .btn:hover {
+    button:hover {
       transform: translateY(-2px);
+      background: linear-gradient(135deg, #6fd052, #4b8e38);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
     }
 
-    .btn span {
-      font-size: 1.5rem;
-    }
-
-    footer {
-      margin-top: 60px;
-      font-size: 0.8rem;
-      color: #88a188;
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
     }
   </style>
 </head>
 <body>
-  <header>GrainChain</header>
-
-  <h2>Connecting Surplus to Need: From Restaurants to Communities</h2>
-  <p>Restaurants, farmers, NGOs, and kitchens—united to reduce food waste and fight hunger</p>
-
-  <div class="button-container">
-    <button class="btn" id="signupBtn">New user? Sign up <span>👤</span></button>
-    <button class="btn" id="loginBtn">Already a user? Login <span>✅</span></button>
+  <div class="form-box">
+    <h2>Create Your Account</h2>
+    <form>
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
   </div>
-
-  <footer>
-    © 2025 GrainChain. All rights reserved.
-  </footer>
-
-  <script>
-    document.getElementById('signupBtn').addEventListener('click', () => {
-      window.location.href = "signup.html";
-    });
-
-    document.getElementById('loginBtn').addEventListener('click', () => {
-      window.location.href = "login.html";
-    });
-  </script>
 </body>
 </html>
