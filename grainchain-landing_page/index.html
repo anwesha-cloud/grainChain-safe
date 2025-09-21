@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrainChain</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0b3d1a; /* fallback dark green */
+      background-image: url('YOUR_BACKGROUND_IMAGE_LINK_HERE'); /* put link here */
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      background-color: rgba(10, 52, 21, 0.95);
+      padding: 20px;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    h2 {
+      margin-top: 60px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px black;
+    }
+
+    p {
+      color: #b7c4b2;
+      font-size: 1rem;
+      margin: 10px auto 40px;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #5ba644;
+      color: black;
+      padding: 15px 25px;
+      border-radius: 25px;
+      width: 280px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      border: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn span {
+      font-size: 1.5rem;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.8rem;
+      color: #88a188;
+    }
+  </style>
+</head>
+<body>
+  <header>GrainChain</header>
+
+  <h2>Connecting Surplus to Need: From Restaurants to Communities</h2>
+  <p>Restaurants, farmers, NGOs, and kitchens—united to reduce food waste and fight hunger</p>
+
+  <div class="button-container">
+    <button class="btn" id="signupBtn">New user? Sign up <span>👤</span></button>
+    <button class="btn" id="loginBtn">Already a user? Login <span>✅</span></button>
+  </div>
+
+  <footer>
+    © 2025 GrainChain. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById('signupBtn').addEventListener('click', () => {
+      window.location.href = "signup.html";
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
