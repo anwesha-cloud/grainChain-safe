@@ -31,6 +31,7 @@ export const SignUp = ({ onBack }: SignUpProps) => {
       { id: "number", label: "One number (0-9)", test: /[0-9]/.test(pw) },
       { id: "special", label: "One special character (e.g. !@#$%)", test: /[^A-Za-z0-9]/.test(pw) },
     ];
+
     const passed = rules.filter((r) => r.test).length;
     const failed = rules.filter((r) => !r.test).map((r) => r.label);
     return { rules, passed, failed, valid: failed.length === 0 };
@@ -45,7 +46,7 @@ export const SignUp = ({ onBack }: SignUpProps) => {
     setError("");
 
     if (!passwordValidation.valid) {
-      setError("Password requirements not met.");
+      setError(`Password requirements not met.`);
       return;
     }
 
@@ -54,19 +55,13 @@ export const SignUp = ({ onBack }: SignUpProps) => {
       const res = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: fullName,
-          email,
-          password,
-          address,
-          role: isDonor ? "donor" : "ngo",
-        }),
+        body: JSON.stringify({ name: fullName, email, password, address, role: isDonor ? "donor" : "ngo" }),
       });
 
       let data: any;
       try {
         data = await res.json();
-      } catch {
+      } catch (jsonErr) {
         data = { error: undefined };
       }
 
@@ -75,6 +70,9 @@ export const SignUp = ({ onBack }: SignUpProps) => {
         setSubmitting(false);
         return;
       }
+
+      // ✅ Save full name in localStorage for dashboard greeting
+      localStorage.setItem("fullName", fullName);
 
       navigate("/login");
     } catch (err: any) {
@@ -153,7 +151,7 @@ export const SignUp = ({ onBack }: SignUpProps) => {
                 <div className="w-full h-2 rounded bg-slate-200 overflow-hidden">
                   <div
                     className="h-2 rounded bg-green-500"
-                    style={{ width: `${strengthPercent}%`, transition: "width 160ms ease" }}
+                    style={{ width: `${strengthPercent}%`, transition: 'width 160ms ease' }}
                     aria-hidden
                   />
                 </div>
@@ -185,7 +183,7 @@ export const SignUp = ({ onBack }: SignUpProps) => {
             </div>
 
             <Button type="submit" className="w-full" disabled={submitting}>
-              {submitting ? "Signing up..." : "Sign Up"}
+              {submitting ? 'Signing up...' : 'Sign Up'}
             </Button>
           </form>
         </CardContent>

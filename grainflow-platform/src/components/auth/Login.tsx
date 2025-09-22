@@ -46,6 +46,7 @@ export const Login = ({ onBack }: LoginProps) => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("userType", data.user.role);
       localStorage.setItem("username", data.user.name);
+      localStorage.setItem("fullName", data.user.name); // 👈 added
 
       if (data.user.role === "donor") {
         navigate("/donor-dashboard");

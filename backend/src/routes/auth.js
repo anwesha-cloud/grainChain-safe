@@ -5,6 +5,7 @@ const User = require('../models/user');
 
 const router = express.Router();
 
+// Signup route
 router.post('/signup',
   [
     body('name').notEmpty().withMessage('Name is required'),
@@ -14,48 +15,25 @@ router.post('/signup',
   async (req, res) => {
     try {
       const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
+      if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
       const { name, email, password, role } = req.body;
       const exists = await User.findOne({ email });
-      if (exists) {
-        return res.status(400).json({ error: 'Email already registered' });
-      }
+      if (exists) return res.status(400).json({ error: 'Email already registered' });
 
-      const user = new User({
-        name,
-        email,
-        password,
-        role: role || 'donor'
-      });
-
+      const user = new User({ name, email, password, role });
       await user.save();
-      console.log("✅ User inserted into DB:", user.email);
 
-      const token = jwt.sign(
-        { id: user._id, role: user.role },
-        process.env.JWT_SECRET || 'supersecret',
-        { expiresIn: '7d' }
-      );
-
-      res.status(201).json({
-        token,
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role
-        }
-      });
+      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET || 'supersecret', { expiresIn: '7d' });
+      res.status(201).json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
     } catch (err) {
-      console.error('❌ Signup error:', err);
-      res.status(500).json({ error: 'Server error during signup' });
+      console.error('Signup error:', err);
+      res.status(500).json({ error: 'Server error' });
     }
   }
 );
 
+// Login route
 router.post('/login',
   [
     body('email').isEmail(),
@@ -64,40 +42,20 @@ router.post('/login',
   async (req, res) => {
     try {
       const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
+      if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
       const { email, password } = req.body;
       const user = await User.findOne({ email });
-
-      if (!user) {
-        return res.status(400).json({ error: 'Invalid credentials - no user found' });
-      }
+      if (!user) return res.status(400).json({ error: 'Invalid credentials' });
 
       const match = await user.comparePassword(password);
-      if (!match) {
-        return res.status(400).json({ error: 'Invalid credentials - wrong password' });
-      }
+      if (!match) return res.status(400).json({ error: 'Invalid credentials' });
 
-      const token = jwt.sign(
-        { id: user._id, role: user.role },
-        process.env.JWT_SECRET || 'supersecret',
-        { expiresIn: '7d' }
-      );
-
-      res.json({
-        token,
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role
-        }
-      });
+      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET || 'supersecret', { expiresIn: '7d' });
+      res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
     } catch (err) {
-      console.error('❌ Login error:', err);
-      res.status(500).json({ error: 'Server error during login' });
+      console.error('Login error:', err);
+      res.status(500).json({ error: 'Server error' });
     }
   }
 );
