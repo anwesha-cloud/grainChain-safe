@@ -1,35 +1,78 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+
+// Component for clicking on the map to pick location
+function LocationPicker({
+  setLatLng,
+}: {
+  setLatLng: (val: { lat: number; lng: number }) => void;
+}) {
+  useMapEvents({
+    click(e) {
+      setLatLng({ lat: e.latlng.lat, lng: e.latlng.lng });
+    },
+  });
+  return null;
+}
 
 interface ProfileUpdateProps {
   onBack: () => void;
 }
 
 export const ProfileUpdate = ({ onBack }: ProfileUpdateProps) => {
-  const [fullName, setFullName] = useState(localStorage.getItem('fullName') || '');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [bio, setBio] = useState('');
+  const [fullName, setFullName] = useState(
+    localStorage.getItem("fullName") || ""
+  );
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [phone, setPhone] = useState(localStorage.getItem("phone") || "");
+  const [address, setAddress] = useState(localStorage.getItem("address") || "");
+  const [bio, setBio] = useState(localStorage.getItem("bio") || "");
+  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
+
   const { toast } = useToast();
+
+  useEffect(() => {
+    const lat = localStorage.getItem("lat");
+    const lng = localStorage.getItem("lng");
+    if (lat && lng) {
+      setLatLng({ lat: parseFloat(lat), lng: parseFloat(lng) });
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Mock update - in real app, this would send to backend
-    localStorage.setItem('fullName', fullName);
-    
+
+    // Save everything to localStorage (mock)
+    localStorage.setItem("fullName", fullName);
+    localStorage.setItem("email", email);
+    localStorage.setItem("phone", phone);
+    localStorage.setItem("address", address);
+    localStorage.setItem("bio", bio);
+    if (latLng) {
+      localStorage.setItem("lat", latLng.lat.toString());
+      localStorage.setItem("lng", latLng.lng.toString());
+    }
+
     toast({
       title: "Profile Updated!",
       description: "Your profile information has been successfully updated.",
     });
-    
+
     setTimeout(() => {
       onBack();
     }, 2000);
@@ -51,6 +94,7 @@ export const ProfileUpdate = ({ onBack }: ProfileUpdateProps) => {
             </div>
           </div>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
@@ -106,6 +150,27 @@ export const ProfileUpdate = ({ onBack }: ProfileUpdateProps) => {
                 placeholder="Tell us a bit about yourself and your motivation to help..."
                 rows={4}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Update Location</Label>
+              <div style={{ height: "250px" }}>
+                <MapContainer
+                  center={latLng || { lat: 28.7041, lng: 77.1025 }} // Default Delhi
+                  zoom={12}
+                  style={{ height: "100%", width: "100%" }}
+                >
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  {latLng && <Marker position={[latLng.lat, latLng.lng]} />}
+                  <LocationPicker setLatLng={setLatLng} />
+                </MapContainer>
+              </div>
+              {latLng && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  Picked Location: {latLng.lat.toFixed(4)},{" "}
+                  {latLng.lng.toFixed(4)}
+                </p>
+              )}
             </div>
 
             <Button type="submit" className="w-full" size="lg">
